@@ -51,7 +51,7 @@ void parse(std::string& rawCmd, std::vector<Command>& cmdList){
 	std::string tempString;		// string to build cmd/arg as they come in
 	Command tempCommand;	// Command object to be pushed into the vector
 
-	for(int i=0; i<rawCmd.size(); i++){		// loops through the whole string
+	for(unsigned i=0; i<rawCmd.size(); i++){		// loops through the whole string
 		if(rawCmd.at(i) != ' '){				// if the char at curr. index is not a space
 			if(rawCmd.at(i) == ';'){			// if the char is a semicolon
 				tempCommand.connect = rawCmd.at(i);	// save the connector as ;
@@ -114,7 +114,7 @@ void parse(std::string& rawCmd, std::vector<Command>& cmdList){
 }
 
 void testMain1(std::vector<Command> cmdList){
-	for(int i=0; i<cmdList.size(); ++i){
+	for(unsigned i=0; i<cmdList.size(); ++i){
 		std::cout << "Command object #"  << i+1 << ": " << std::endl;
 		std::cout << "Command: ";
 		if(cmdList.at(i).cmd.size() != 0){
@@ -126,7 +126,7 @@ void testMain1(std::vector<Command> cmdList){
 
 		std::cout << "Arguments list:" << std::endl;
 		if(cmdList.at(i).arg.size() != 0){
-			for(int o=0; o<cmdList.at(i).arg.size(); ++o){
+			for(unsigned o=0; o<cmdList.at(i).arg.size(); ++o){
 				std::cout << "Argument " << o  << ": ";
 				if(cmdList.at(i).arg.at(o).size() != 0){
 					std::cout << cmdList.at(i).arg.at(o) << std::endl;
@@ -166,14 +166,16 @@ void testMain1(std::vector<Command> cmdList){
 	}
 }
 int main(){
-	std::string rawCmd;			// Raw input from user
-	std::vector<Command> cmdList;			// Vector to store commands after they've been parsed
+	while(true){
+		std::string rawCmd;			// Raw input from user
+		std::vector<Command> cmdList;			// Vector to store commands after they've been parsed
 
-	std::cout << "$ ";			// Prompt user
-	std::getline(std::cin, rawCmd); // Receive command line
+		std::cout << "$ ";			// Prompt user
+		std::getline(std::cin, rawCmd); // Receive command line
 
-	parse(rawCmd, cmdList);		// Parse the command line
+		parse(rawCmd, cmdList);		// Parse the command line
 
-	testMain1(cmdList);
+		testMain1(cmdList);			// Test
+	}
 	return 0;
 }
