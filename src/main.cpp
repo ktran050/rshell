@@ -65,7 +65,9 @@ void parse(std::string& rawCmd, std::vector<Command>& cmdList){
 						tempCommand.clear();				// clear the old command
 					}
 					tempCommand.connect = "||";	// set the connector
-					i++;						// update the value of i
+					i++;						// update the value of 
+					cmdList.push_back(tempCommand);
+					tempCommand.clear();
 				}
 			}
 			else if((rawCmd.at(i) == '&') && (i != rawCmd.size()-1)){		// if the char is an ampersand and NOT the last char in the string
@@ -76,6 +78,8 @@ void parse(std::string& rawCmd, std::vector<Command>& cmdList){
 					}
 					tempCommand.connect = "&&";	// set the connector
 					i++;						// update the value of i
+					cmdList.push_back(tempCommand);
+					tempCommand.clear();
 				}
 			}
 			else if(rawCmd.at(i) == '#'){		// if the curr char is a comment sign
@@ -83,7 +87,6 @@ void parse(std::string& rawCmd, std::vector<Command>& cmdList){
 			}
 			else{
 				tempString += rawCmd.at(i);		// build the command/argument in tempString
-				std::cout << tempString << std::endl;
 			}
 		}
 		else{									// the current char is a space
@@ -93,7 +96,6 @@ void parse(std::string& rawCmd, std::vector<Command>& cmdList){
 					tempString.clear();			// clear the tempString
 				}
 				else{// if there is a value in cmd then it must be an arg
-					std::cout << "arg added" << std::endl;
 					tempCommand.arg.push_back(tempString); // add it to the list of arg
 					tempString.clear();			// reset the temp string
 				}
@@ -113,7 +115,7 @@ void parse(std::string& rawCmd, std::vector<Command>& cmdList){
 
 void testMain1(std::vector<Command> cmdList){
 	for(int i=0; i<cmdList.size(); ++i){
-		std::cout << "Command object #: " << i+1 << std::endl;
+		std::cout << "Command object #"  << i+1 << ": " << std::endl;
 		std::cout << "Command: ";
 		if(cmdList.at(i).cmd.size() != 0){
 			std::cout << cmdList.at(i).cmd << std::endl;
@@ -125,17 +127,24 @@ void testMain1(std::vector<Command> cmdList){
 		std::cout << "Arguments list:" << std::endl;
 		if(cmdList.at(i).arg.size() != 0){
 			for(int o=0; o<cmdList.at(i).arg.size(); ++o){
-				std::cout << "Arg: ";
+				std::cout << "Argument " << o  << ": ";
 				if(cmdList.at(i).arg.at(o).size() != 0){
 					std::cout << cmdList.at(i).arg.at(o) << std::endl;
 				}
 				else{
-					std::cout << "No Arg" << std::endl;
+					std::cout << "No Arguments" << std::endl;
 				}
 			}
 		}
 		else{
 			std::cout << "No arguments" << std::endl;
+		}
+		std::cout << "Connector: ";
+		if(cmdList.at(i).connect.size() != 0){
+			std::cout << cmdList.at(i).connect << std::endl;
+		}
+		else{
+			std::cout << "No connector" << std::endl;
 		}
 
 		std::cout << "Ran is: ";
@@ -153,6 +162,7 @@ void testMain1(std::vector<Command> cmdList){
 		else{
 			std::cout << "True" << std::endl;
 		}
+	std::cout << "==============================" << std::endl;
 	}
 }
 int main(){
